@@ -1,4 +1,6 @@
 import { Check, Star } from "lucide-react"
+import { useState } from "react"
+
 
 const plans = [
   {
@@ -50,6 +52,15 @@ const plans = [
 ]
 
 export default function Pricing() {
+
+  const[selectedTarrif, setselectedTarrif] = useState("Plus");
+
+  const hendlerSelect = (tarrif) => {
+      setselectedTarrif(tarrif);
+  };
+
+  const isTarrif = (name) => selectedTarrif === name;
+
   return (
     <section id="pricing" className="py-16 sm:py-20 px-10 sm:px-8 lg:px-8 relative">
       <div className="max-w-7xl mx-auto">
@@ -69,7 +80,7 @@ export default function Pricing() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-6 ">
           {plans.map((plan, key) => (
-            <div key={key} className={`relative bg-slate-900/50 backdrop-blur-sm border rounded-xl sm:rounded-2xl p-6 sm:p-8 transition-all duration-300 overflow-visible group flex flex-col h-full ${plan.mostPopular ? "border-blue-500 shadow-2xl shadow-blue-500/20 lg:scale-105": "border-slate-800 hover:border-slate-700"}`}>
+            <div key={key}  onClick={() => hendlerSelect(plan.name)} className={`relative bg-slate-900/50 backdrop-blur-sm border rounded-xl sm:rounded-2xl p-6 sm:p-8 transition-all duration-300 overflow-visible group flex flex-col h-full ${isTarrif(plan.name) ? "border-blue-500 shadow-2xl shadow-blue-500/20 lg:scale-105": "border-slate-800 hover:border-slate-700"}`}>
             {plan.mostPopular && (
               <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 z-10">
                 <div className="flex items-center space-x-1 px-3 sm:px-4 py-1 sm:py-1.5 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full text-xs sm:text-sm font-semibold shadow-lg">
@@ -110,7 +121,7 @@ export default function Pricing() {
               </ul>
 
               <button className={`w-full py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold transition-full duration-300 mt-auto hover:scala-102 cursor-pointer tex-sm sm:text-base
-              ${plan.mostPopular
+              ${isTarrif(plan.name)
                 ? "bg-gradient-to-b from-blue-500 to-cyan-500"
                 : "bg-white/5 border border-white/10 hover:bg-white/10"}`}>
                 Get Started
